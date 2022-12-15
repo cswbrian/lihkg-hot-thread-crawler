@@ -5,7 +5,10 @@ from datetime import datetime, tzinfo
 import pytz
 
 from seleniumwire import webdriver  # Import from seleniumwire
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.utils import ChromeType
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from seleniumwire.utils import decode
 
 type = sys.argv[1]
@@ -13,6 +16,8 @@ if type not in ['now', 'daily', 'weekly']:
     raise ValueError("Please include [now], [daily] or [weekly] as argument")
 
 print(f"Crawl type: {type}")
+
+chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
 chrome_options = Options()
 #chrome_options.add_argument("--disable-extensions")
@@ -25,7 +30,7 @@ ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0"
 chrome_options.add_argument("user-agent={}".format(ua))
 
 # Create a new instance of the Chrome driver
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
 url = f'https://lihkg.com/category/2?type={type}'
 
