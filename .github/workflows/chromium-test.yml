@@ -1,25 +1,25 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.utils import ChromeType
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-
-chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
-
-chrome_options = Options()
-options = [
-    "--headless",
-    "--disable-gpu",
-    "--window-size=1920,1200",
-    "--ignore-certificate-errors",
-    "--disable-extensions",
-    "--no-sandbox",
-    "--disable-dev-shm-usage"
-]
-for option in options:
-    chrome_options.add_argument(option)
-
-driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
-
-driver.get('http://nytimes.com')
-print(driver.title)
+name: scrape
+on:
+  workflow_dispatch:
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Installed package list
+        run: apt list --installed
+      - name: Remove Chrome
+        run: sudo apt purge google-chrome-stable
+      - name: Remove default Chromium
+        run: sudo apt purge chromium-browser
+      - name: Install a new Chromium
+        run: sudo apt install -y chromium-browser
+      - name: Install all necessary packages
+        run: pip install requests beautifulsoup4 pandas webdriver-manager selenium
+      - name: Run the scraping script
+        run: python chromium-test.py
