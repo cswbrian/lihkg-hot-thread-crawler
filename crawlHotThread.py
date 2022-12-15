@@ -12,7 +12,7 @@ type = sys.argv[1]
 if type not in ['now', 'daily', 'weekly']:
     raise ValueError("Please include [now], [daily] or [weekly] as argument")
 
-print(f"Fetching type: {type}")
+print(f"Crawl type: {type}")
 
 chrome_options = Options()
 #chrome_options.add_argument("--disable-extensions")
@@ -29,7 +29,6 @@ driver = webdriver.Chrome(options=chrome_options)
 
 url = f'https://lihkg.com/category/2?type={type}'
 
-print(url)
 # Go to the Google home page
 driver.get(url)
 
@@ -38,6 +37,9 @@ for request in driver.requests:
     if "/thread/hot" in request.url and request.response:
         # Get current datetime in UTC
         utc_now_dt = datetime.now(tz=pytz.UTC).strftime("%Y%m%d_%H%M%S")
+        print(f"Request: {request.url}")
+        print(f"Response code: {request.response.status_code}, current time: {utc_now_dt}")
+        
         # decode an encoded response body
         decoded_body = decode(
             request.response.body,
@@ -48,10 +50,7 @@ for request in driver.requests:
 
         # convert json string to dictionary
         data = json.loads(json_str)
-
-        print(request.url, request.response.status_code,
-              request.response.headers['Content-Type'],
-              request.response.headers.get('Content-Encoding', 'identity'))
+        print(f"Response decoded successful")
 
         file_name = os.path.join(type, f'{utc_now_dt}.json')
         dirname = os.path.dirname(file_name)
