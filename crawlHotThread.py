@@ -20,14 +20,18 @@ print(f"Crawl type: {type}")
 chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
 chrome_options = Options()
-#chrome_options.add_argument("--disable-extensions")
-#chrome_options.add_argument("--disable-gpu")
-#chrome_options.add_argument("--no-sandbox") # linux only
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--incognito")
-# fake user agent
-ua = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0"
-chrome_options.add_argument("user-agent={}".format(ua))
+options = [
+    "--headless",
+    "--disable-gpu",
+    "--window-size=1920,1200",
+    "--ignore-certificate-errors",
+    "--disable-extensions",
+    "--no-sandbox",
+    "--disable-dev-shm-usage",
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0" # fake user agent
+]
+for option in options:
+    chrome_options.add_argument(option)
 
 # Create a new instance of the Chrome driver
 driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
