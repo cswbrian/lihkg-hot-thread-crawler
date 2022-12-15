@@ -45,6 +45,7 @@ driver.get(url)
 
 # Access requests via the `requests` attribute
 for request in driver.requests:
+    print(request.url)
     if "/thread/hot" in request.url and request.response:
         # Get current datetime in UTC
         utc_now_dt = datetime.now(tz=pytz.UTC).strftime("%Y%m%d_%H%M%S")
