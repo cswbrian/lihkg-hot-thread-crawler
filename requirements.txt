@@ -1,1 +1,2 @@
 selenium-wire==5.1.0
+pytz==2022.6
