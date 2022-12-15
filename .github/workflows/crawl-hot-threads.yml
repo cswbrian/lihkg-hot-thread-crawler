@@ -1,0 +1,38 @@
+name: Crawl hot threads every hour
+on: 
+  push:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  Fetch-Route-Data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Python environment
+        uses: actions/setup-python@v2
+        with:
+            python-version: '3.8'
+            architecture: 'x64'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Crawling resources
+        run: |
+          python crawlHotThread.py now
+          python crawlHotThread.py daily
+          python crawlHotThread.py weekly
+      - name: Update resources
+        uses: test-room-7/action-update-file@v1
+        with:
+            file-path: |
+              now/*.json
+              daily/*.json
+              weekly/*.json
+            commit-msg: Add hot threads
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            branch: gh-pages
