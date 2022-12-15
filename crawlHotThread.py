@@ -38,6 +38,8 @@ driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 
 url = f'https://lihkg.com/category/2?type={type}'
 
+print(f"url: {url}")
+
 # Go to the Google home page
 driver.get(url)
 
