@@ -24,8 +24,8 @@ jobs:
       - name: Crawl LIHKG Hot Threads
         run: |
           python crawlHotThread.py now
-          python crawlHotThread.py daily
-          python crawlHotThread.py weekly
+ #        python crawlHotThread.py daily
+ #        python crawlHotThread.py weekly
       - name: Update resources
         uses: test-room-7/action-update-file@v1
         with:
