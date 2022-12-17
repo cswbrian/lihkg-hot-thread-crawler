@@ -23,8 +23,8 @@ jobs:
         run: sudo apt purge google-chrome-stable
       - name: Remove default Chromium
         run: sudo apt purge chromium-browser
-      - name: Install a new Chromium
-        run: sudo apt install -y chromium-browser
+      - name: Install a new Chromium and xvfb
+        run: sudo apt install -y chromium-browser xvfb
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
