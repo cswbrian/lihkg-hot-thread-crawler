@@ -28,6 +28,7 @@ options = [
     "--disable-extensions",
     "--no-sandbox",
     "--disable-dev-shm-usage",
+    "--remote-debugging-port=9222",
     "user-agent=Mozilla/5.0 (Windows NT 10.0; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0" # fake user agent
 ]
 for option in options:
